@@ -8,3 +8,6 @@ __pycache__
 
 # folder testing
 /test
+
+# folder inference results
+/inference_results
