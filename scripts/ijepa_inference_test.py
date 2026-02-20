@@ -273,7 +273,7 @@ class IJEPAInferenceTest:
             heatmap[r, c] = val.item()
             
         fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-        axes[0].imshow(img); axes[0].set_title("Original Image"); axes[0].axis('off')
+        axes[0].imshow(img); axes[0].set_title("Input Image"); axes[0].axis('off')
         axes[1].imshow(masked_img); axes[1].set_title(f"Context (Masked {mask_type})"); axes[1].axis('off')
         
         im = axes[2].imshow(heatmap, vmin=0, vmax=1.0, cmap='RdYlGn')
@@ -302,18 +302,24 @@ class IJEPAInferenceTest:
         print(f"Visualization saved to {output_path}")
 
 if __name__ == "__main__":
+
+    input_image = "/home/uslib/quynhhuong/ijepa/test/test_01.jpg"
+    # input_image = "/home/uslib/quynhhuong/ijepa/test/test_01_removezebra.jpg"
+
     size_100_percent="7,7,4,7"
     size_75_percent="7,7,4,5"
     size_50_percent="7,7,4,3"
-    size_25_percent="8,12,3,2"
+    size_25_percent="7,7,4,2"
 
     output_100_percent="/home/uslib/quynhhuong/ijepa/inference_results/test_01_100_percent.png"
     output_75_percent="/home/uslib/quynhhuong/ijepa/inference_results/test_01_75_percent.png"
     output_50_percent="/home/uslib/quynhhuong/ijepa/inference_results/test_01_50_percent.png"
     output_25_percent="/home/uslib/quynhhuong/ijepa/inference_results/test_01_25_percent.png"
 
+    # output_100_percent="/home/uslib/quynhhuong/ijepa/inference_results/test_01_removezebra_100_percent.png"
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image", type=str, default="/home/uslib/quynhhuong/ijepa/test/test_01.jpg")
+    parser.add_argument("--image", type=str, default=input_image)
     parser.add_argument("--checkpoint", type=str, default="/home/uslib/quynhhuong/ijepa/pretrained_models/IN1K-vit.h.14-300e.pth.tar")
     parser.add_argument("--mask_type", type=str, default="block", choices=['block', 'object', 'multiblock'])
     # parser.add_argument("--mask_coords", type=str, default="7,7,4,7", help="top,left,h,w")
