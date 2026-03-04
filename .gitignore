@@ -11,19 +11,14 @@ __pycache__
 
 # folder inference results
 /inference_results
+*.png
+*.jpg
+*.jpeg
 
 # Model checkpoints và Large files
 *.pt
 *.pth
 *.tar
-/forensic_head_best.pt
-/yolov8n-seg.pt
-/memory_bank*.pt
 
 # Thư mục output nặng (chứa checkpoint và cache v3/v4)
 /forensic_outputs/
-
-# Thư mục ảnh tạm
-/inference_results/
-/test/
-*.png
