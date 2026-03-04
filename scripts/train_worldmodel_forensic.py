@@ -24,7 +24,6 @@ import argparse
 from src.models.multiscale_encoder import MultiScaleEncoder
 from src.models.forensic_head import ForensicHead
 
-
 class CASIAWorldModelDataset(Dataset):
     """
     CASIA 2.0 dataset with precomputed prediction error maps.
@@ -184,6 +183,7 @@ def train():
             
             optimizer.zero_grad()
             
+            #  khi chạy encoder → encoder hoàn toàn không cập nhật trọng số
             with torch.no_grad():
                 multi_feats = encoder(imgs)
             
@@ -252,5 +252,6 @@ def train():
     print(f"{'='*70}")
 
 
+# script ghép encoder + head + training
 if __name__ == '__main__':
     train()

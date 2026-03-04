@@ -1,6 +1,9 @@
 import torch
 import torch.nn as nn
 
+# wrapper lấy intermediate features từ encoder
+# vì encoder bị đóng băng hoàn toàn, ta ko thể sửa output của nó
+# dùng forward hook - một cơ chế của PyTorch cho phép ghi lại output của một layer bất kỳ mà ko can thiệp vào luồn tính toán 
 class MultiScaleEncoder(nn.Module):
     """
     Wrap I-JEPA ViT Encoder to extract intermediate features from specific layers.

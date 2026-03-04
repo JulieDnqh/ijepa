@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+# nhận multi-scale features làm input
 class ForensicHead(nn.Module):
     """
     Gated Fusion ForensicHead v3 - World Model Forensic Pipeline.
@@ -49,6 +49,7 @@ class ForensicHead(nn.Module):
             # Learnable Gate: Controls contribution of prediction error
             # Input: concat(feature_out, error_out) → sigmoid → [0, 1]
             # ============================================================
+            # sigmoid tạo trọng số điều chỉnh
             self.gate = nn.Sequential(
                 nn.Linear(hidden_dim * 2, hidden_dim),
                 nn.Sigmoid()
@@ -81,6 +82,7 @@ class ForensicHead(nn.Module):
         feats = []
         for name in ['layer_4', 'layer_8', 'layer_12', 'final']:
             feats.append(multiscale_features[name])
+        # 4 layers × 1280-dim = 5120
         x = torch.cat(feats, dim=-1)  # [B, N, 5120]
         
         B, N, C = x.shape
@@ -94,7 +96,10 @@ class ForensicHead(nn.Module):
             err_out = self.error_branch(err_flat)  # [B*N, 512]
             
             # Gated fusion
+            # bước 1: gate "quan sát" cả hai nhánh
+            # gate nhìn thấy cả feature và error từ patch đó trước khi quyết định
             gate_input = torch.cat([feat_out, err_out], dim=-1)  # [B*N, 1024]
+            # bước 2: sigmoid tạo trọng số điều chỉnh
             gate_values = self.gate(gate_input)  # [B*N, 512], values in [0, 1]
             
             # Fusion: feature + gate * error
